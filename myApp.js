@@ -11,7 +11,19 @@ app.use("/public", express.static(__dirname + "/public"));
 app.use("",(req,res,next)=>{
   console.log(req.method + " " + req.path + " - " + req.ip);
   next();
-})
+});
+
+//Chain Middleware
+app.get('/now',(req,res,next)=>{
+  req.time = new Date().toString();
+  next();
+},(req,res)=>{
+  res.json({time: req.time});
+});
+//Request Params
+app.get('/:word/echo',(req,res) =>{
+  res.json({echo: req.params.word});
+});
 
 //Serve JSON
 app.get("/json",(req,res) => {
