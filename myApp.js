@@ -1,5 +1,7 @@
+let bodyParser = require("body-parser");
 let express = require("express");
 let app = express();
+
 
 console.log("Hello World");
 app.get("/", (req, res) => {
@@ -12,6 +14,8 @@ app.use("",(req,res,next)=>{
   console.log(req.method + " " + req.path + " - " + req.ip);
   next();
 });
+//Use Body parser middleware
+app.use(bodyParser.urlencoded({extended: false}));
 
 //Chain Middleware
 app.get('/now',(req,res,next)=>{
@@ -23,6 +27,12 @@ app.get('/now',(req,res,next)=>{
 //Request Params
 app.get('/:word/echo',(req,res) =>{
   res.json({echo: req.params.word});
+});
+
+//Query Params
+app.get('/name',(req,res)=>{
+  
+  res.json({name : req.query.first + " "+ req.query.last})
 });
 
 //Serve JSON
